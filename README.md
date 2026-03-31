@@ -94,13 +94,13 @@ Experiment Modules
 Directory: task_migration/
 This experiment evaluates workload migration from the cloud node to the edge node when the cloud-side CPU usage becomes too high.
 Workflow:
-1. A Flask service runs on the cloud side
-2. A compute-heavy request increases CPU load
-3. Prometheus monitors cloud CPU usage
-4. When the configured CPU threshold is exceeded, an alert is triggered
-5. Alertmanager sends the alert to a webhook service
-6. The webhook runs a migration script
-7. The cloud-side Deployment is removed and the edge-side Deployment is applied
+- A Flask service runs on the cloud side
+- A compute-heavy request increases CPU load
+- Prometheus monitors cloud CPU usage
+- When the configured CPU threshold is exceeded, an alert is triggered
+- Alertmanager sends the alert to a webhook service
+- The webhook runs a migration script
+- The cloud-side Deployment is removed and the edge-side Deployment is applied
 Purpose:
 - reduce cloud-side CPU pressure
 - demonstrate alert-driven workload relocation
