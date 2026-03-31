@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scale-task-cloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scale-task
+      version: cloud
+  template:
+    metadata:
+      labels:
+        app: scale-task
+        version: cloud
+    spec:
+      nodeSelector:
+        node-role: cloud
+      containers:
+        - name: scale-container-cloud
+          image: scale-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6060
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: 5

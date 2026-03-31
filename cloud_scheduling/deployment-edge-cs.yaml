@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scale-task-edge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scale-task
+      version: edge
+  template:
+    metadata:
+      labels:
+        app: scale-task
+        version: edge
+    spec:
+      nodeSelector:
+        edge-node: "true"
+      containers:
+        - name: scale-container-edge
+          image: scale-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6060
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: 5

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-task-service-baseline
+spec:
+  selector:
+    app: flask-task-baseline
+  ports:
+    - protocol: TCP
+      port: 8001
+      targetPort: 5000
+ 

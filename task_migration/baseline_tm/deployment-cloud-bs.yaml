@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-task-cloud-baseline
+  labels:
+    app: flask-task-baseline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-task-baseline
+  template:
+    metadata:
+      labels:
+        app: flask-task-baseline
+    spec:
+      nodeSelector:
+        node-role: cloud
+      containers:
+        - name: flask-container-baseline
+          image: flask-tasks-service
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: 1
+            limits:
+              cpu: 8
+            
+    
+
+  

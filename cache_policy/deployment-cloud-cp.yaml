@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-cloud-cp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-task-cp
+      version: cloud
+  template:
+    metadata:
+      labels:
+        app: product-task-cp
+        version: cloud
+    spec:
+      nodeSelector:
+        node-role: cloud
+      containers:
+      - name: product-container-cloud
+        image: product-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5050
+        resources:
+            requests:
+              cpu: 1
+            limits:
+              cpu: 8

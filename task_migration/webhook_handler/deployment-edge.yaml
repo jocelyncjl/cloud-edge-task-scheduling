@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-task-edge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-edge
+  template:
+    metadata:
+      labels:
+        app: flask-edge
+    spec:
+      nodeSelector:
+        edge-node: "true"
+      containers:
+        - name: flask-edge-container
+          image: flask-tasks-service:latest 
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: "1"
+            limits:
+              cpu: "8"
+
+
+            
+         
+        
+
+
+  
+
+
+      

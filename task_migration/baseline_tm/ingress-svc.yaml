@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-07-30T16:32:47Z"
+  labels:
+    app: istio-ingressgateway
+    app.kubernetes.io/instance: istio
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: istio-ingressgateway
+    app.kubernetes.io/part-of: istio
+    app.kubernetes.io/version: 1.0.0
+    helm.sh/chart: istio-ingress-1.0.0
+    install.operator.istio.io/owning-resource: unknown
+    install.operator.istio.io/owning-resource-namespace: istio-system
+    istio: ingressgateway
+    istio.io/rev: default
+    operator.istio.io/component: IngressGateways
+    operator.istio.io/managed: Reconcile
+    operator.istio.io/version: 1.26.3
+    release: istio
+  name: istio-ingressgateway
+  namespace: istio-system
+  resourceVersion: "1467631"
+  uid: eb74a477-ad2b-4ee0-9973-cc330c123f9f
+spec:
+  allocateLoadBalancerNodePorts: true
+  clusterIP: 10.105.239.221
+  clusterIPs:
+  - 10.105.239.221
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - name: status-port
+    nodePort: 30590
+    port: 15021
+    protocol: TCP
+    targetPort: 15021
+  - name: http2
+    nodePort: 31298
+    port: 80
+    protocol: TCP
+    targetPort: 8080
+  - name: https
+    nodePort: 31793
+    port: 443
+    protocol: TCP
+    targetPort: 8443
+  - name: tcp
+    nodePort: 31891
+    port: 31400
+    protocol: TCP
+    targetPort: 31400
+  - name: tls
+    nodePort: 30393
+    port: 15443
+    protocol: TCP
+    targetPort: 15443
+  - name: http-8001
+    port: 8001
+    protocol: TCP
+    targetPort: 5000 
+  selector:
+    app: istio-ingressgateway
+    istio: ingressgateway
+  sessionAffinity: None
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 127.0.0.1
+      ipMode: VIP

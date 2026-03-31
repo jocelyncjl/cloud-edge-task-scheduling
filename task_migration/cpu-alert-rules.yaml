@@ -1,0 +1,11 @@
+groups:
+  - name: cloud-cpu-alert
+    rules:
+      - alert: HighCloudCPUUsage
+        expr: (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[2m])) by (instance)) * 100 >= 50
+        for: 10s
+        labels:
+          severity: critical
+        annotations:
+          summary: "Cloud node CPU >= 50%"
+          description: "CPU usage has exceeded 50% on {{ $labels.instance }} for 10 seconds"

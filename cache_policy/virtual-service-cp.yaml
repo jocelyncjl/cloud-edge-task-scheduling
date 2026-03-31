@@ -1,0 +1,31 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: product-service-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - product-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/product/101"
+    route:
+    - destination:
+        host: product-service-cp
+        subset: edge
+        port: 
+          number: 80
+  - match:
+    - uri:
+        prefix: "/product/"
+    route:
+    - destination:
+        host: product-service-cp
+        subset: cloud
+        port: 
+          number: 80
+
+        
+      

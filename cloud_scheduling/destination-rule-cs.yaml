@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: scale-service-dr
+spec:
+  host: scale-service
+  subsets:
+  - name: cloud
+    labels:
+      version: cloud
+  - name: edge
+    labels:
+      version: edge
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+    

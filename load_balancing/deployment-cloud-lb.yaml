@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-task-cloud-lb
+  labels:
+    app: flask-cloud-lb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-task-lb
+      version: cloud
+  template:
+    metadata: 
+      labels:
+        app: flask-task-lb
+        version: cloud
+    spec:
+      nodeSelector:
+        node-role: cloud
+      containers:
+        - name: flask-container-cloud-lb
+          image: flask-tasks-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          resources:
+            requests:
+              cpu: 1
+            limits:
+              cpu: 8
+             
+
+            
+        
+    
+      

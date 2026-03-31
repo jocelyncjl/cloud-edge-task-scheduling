@@ -1,0 +1,33 @@
+apiVersion: v1
+data:
+  alertmanager.yml: |
+    global: {}
+    receivers:
+      - name: default-receiver
+      - name: webhook-receiver
+        webhook_configs:
+          - url: 'http://webhook-handler-service.default.svc.cluster.local:5001/webhook'
+            send_resolved: true
+    route:
+      group_interval: 5m
+      group_wait: 10s
+      receiver: webhook-receiver
+      repeat_interval: 3h
+    templates:
+      - /etc/alertmanager/*.tmpl
+kind: ConfigMap
+metadata:
+  annotations:
+    meta.helm.sh/release-name: prometheus
+    meta.helm.sh/release-namespace: default
+  creationTimestamp: "2025-06-29T19:14:35Z"
+  labels:
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: alertmanager
+    app.kubernetes.io/version: v0.28.1
+    helm.sh/chart: alertmanager-1.21.0
+  name: prometheus-alertmanager
+  namespace: default
+  resourceVersion: "146769"
+  uid: aaa64ac0-47a7-4b17-a060-2d0fd69c3994

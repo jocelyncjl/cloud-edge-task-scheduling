@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: scale-service-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - scale-gateway
+  http:
+  - match:
+    - headers:
+        x-user-location:
+          exact: "edge"
+    route:
+    - destination:
+        host: scale-service
+        subset: edge
+        port:
+          number: 8080
+  - route:
+    - destination:
+        host: scale-service
+        subset: cloud
+        port:
+          number: 80
+        
+
+
+  
+
+
+      

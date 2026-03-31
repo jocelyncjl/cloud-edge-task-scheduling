@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: flask-task-vs
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - flask-gateway
+  http:
+  - match:
+    - headers:
+        x-user-location:
+          exact: "US"
+    route:
+    - destination:
+        host: flask-task-service-lb
+        subset: edge
+        port: 
+          number: 80
+  - route:
+    - destination:
+        host: flask-task-service-lb
+        subset: cloud
+        port:
+          number: 80
+
+    
+  

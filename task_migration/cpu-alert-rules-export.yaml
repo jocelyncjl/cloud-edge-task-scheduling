@@ -1,0 +1,24 @@
+apiVersion: v1
+data:
+  cpu-alert-rules.yaml: |
+    groups:
+      - name: cloud-cpu-alert
+        rules:
+          - alert: HighCloudCPUUsage
+            expr: (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[2m])) by (instance)) * 100 >= 40
+            for: 10s
+            labels:
+              severity: critical
+            annotations:
+              summary: "Cloud node CPU >= 50%"
+              description: "CPU usage has exceeded 50% on {{ $labels.instance }} for 10 seconds"
+kind: ConfigMap
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","data":{"cpu-alert-rules.yaml":"groups:\n  - name: cloud-cpu-alert\n    rules:\n      - alert: HighCloudCPUUsage\n        expr: (1 - avg(rate(node_cpu_seconds_total{mode=\"idle\"}[2m])) by (instance)) * 100 \u003e= 50\n        for: 10s\n        labels:\n          severity: critical\n        annotations:\n          summary: \"Cloud node CPU \u003e= 50%\"\n          description: \"CPU usage has exceeded 50% on {{ $labels.instance }} for 10 seconds\"\n"},"kind":"ConfigMap","metadata":{"annotations":{},"creationTimestamp":null,"name":"cpu-rules","namespace":"default"}}
+  creationTimestamp: "2025-07-22T11:48:36Z"
+  name: cpu-rules
+  namespace: default
+  resourceVersion: "647146"
+  uid: 6b5d0486-16ad-4fd4-94af-9a95d331ee8e

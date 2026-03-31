@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-edge-cp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-task-cp
+      version: edge
+  template:
+    metadata:
+      labels:
+        app: product-task-cp
+        version: edge
+    spec:
+      nodeSelector:
+        edge-node: "true"
+      containers:
+      - name: product-container-edge
+        image: product-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5050
+        resources:
+            requests:
+              cpu: 1
+            limits:
+              cpu: 8

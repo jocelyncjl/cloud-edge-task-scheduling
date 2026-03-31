@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: flask-task-dr
+spec:
+  host: flask-task-service-lb
+  subsets:
+  - name: cloud
+    labels:
+      version: cloud
+  - name: edge
+    labels:
+      version: edge
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+
+
+  

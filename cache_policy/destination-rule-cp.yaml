@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: product-service-dr
+spec:
+  host: product-service-cp
+  subsets:
+  - name: cloud
+    labels:
+      version: cloud
+  - name: edge
+    labels:
+      version: edge
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+
+
+  
