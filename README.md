@@ -93,6 +93,7 @@ Experiment Modules
 1. R1 Task Migration
 Directory: task_migration/
 This experiment evaluates workload migration from the cloud node to the edge node when the cloud-side CPU usage becomes too high.
+
 Workflow:
 - A Flask service runs on the cloud side
 - A compute-heavy request increases CPU load
@@ -101,10 +102,12 @@ Workflow:
 - Alertmanager sends the alert to a webhook service
 - The webhook runs a migration script
 - The cloud-side Deployment is removed and the edge-side Deployment is applied
+
 Purpose:
 - reduce cloud-side CPU pressure
 - demonstrate alert-driven workload relocation
 - validate a simple rule-based control loop
+
 Metrics and Evaluation:
 Prometheus and Grafana are used to compare CPU behavior before and after migration.
 Key comparison focus:
@@ -114,15 +117,18 @@ Key comparison focus:
 2. R2 Load Balancing
 Directory: load_balancing/
 This experiment evaluates location-aware traffic routing using Istio.
+
 Workflow:
 - requests enter through an Istio Gateway
 - traffic is matched by header rules
 - requests from a specific region are routed to the edge subset
 - all other traffic is routed to the cloud subset
+
 Purpose:
 - reduce latency for nearby users
 - distribute load based on request origin
 - test rule-based traffic placement between cloud and edge
+
 Metrics and Evaluation:
 Prometheus and Grafana are used to compare CPU distribution across edge and cloud during traffic routing.
 Key comparison focus:
@@ -131,11 +137,20 @@ Key comparison focus:
 3. R3 Cache Policy
 Directory: cache_policy/
 This experiment evaluates a simple hot-content scheduling strategy.
-A product service is deployed to both cloud and edge. Requests for a specific hot product are routed to edge, while other requests are handled by the cloud.
-In the current implementation, hot-content routing is based on product ID 101.
+A product service is deployed to both cloud and edge. Requests for a specific hot product are routed to edge, while other requests are handled by the cloud. In the current implementation, hot-content routing is based on product ID 101.
+
+Workflow:
+- A user sends a request for a product page
+- The request enters the system through the Istio Gateway
+- Istio checks the request URI
+- If the request matches the hot product path, such as `/product/101`, it is routed to the edge-side service
+- If the request is for a normal product, it is routed to the cloud-side service
+- Prometheus and Grafana can be used to observe how hot-content routing affects CPU usage on the cloud sides
+
 Purpose:
 - keep popular content closer to users
 - reduce repeated cloud-side processing
+
 Metrics and Evaluation:
 Prometheus and Grafana are used to compare CPU impact under hot-content and non-hot-content request patterns.
 Key comparison focus:
@@ -144,15 +159,18 @@ Key comparison focus:
 4. R4 Cloud Scheduling
 Directory: cloud_scheduling/
 This experiment evaluates Kubernetes Horizontal Pod Autoscaler (HPA) as a rule-based scaling mechanism for cloud-side workloads.
+
 Workflow:
 - a service generates synthetic CPU load
 - Prometheus metrics reflect increasing resource usage
 - HPA watches CPU utilization
 - when the threshold is exceeded, Kubernetes increases the number of Pod replicas in the target Deployment
+
 Purpose:
 - demonstrate CPU-driven autoscaling
 - reduce overload by adding more application Pods
 - evaluate rule-based elastic scaling in the cloud
+
 Metrics and Evaluation:
 Prometheus and Grafana are used to compare CPU behavior before and after scaling out.
 Key comparison focus:
