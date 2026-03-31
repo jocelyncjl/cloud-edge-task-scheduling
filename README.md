@@ -315,12 +315,7 @@ Expected result:
 
 Evaluation Focus
 
-The main evaluation metrics used in this project are: CPU usage
-Special attention is given to CPU metrics, since the main scheduling rules are triggered by CPU pressure or designed to reduce CPU concentration on the cloud side.
-For task migration, the key comparison is:
-before scheduler: cloud CPU remains high, around 50-55%
-after scheduler: cloud CPU drops to around 20-25%
-This CPU reduction is the clearest evidence that the rule-based scheduler improves workload placement.
+The main evaluation metrics used in this project are: CPU usage, Special attention is given to CPU metrics, since the main scheduling rules are triggered by CPU pressure or designed to reduce CPU concentration on the cloud side. For task migration, the key comparison is: before scheduler: cloud CPU remains high, around 50-55%, after scheduler: cloud CPU drops to around 20-25%. This CPU reduction is the clearest evidence that the rule-based scheduler improves workload placement.
 
 
 
