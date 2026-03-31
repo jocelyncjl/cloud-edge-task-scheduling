@@ -36,6 +36,7 @@ task_scheduling_research/
 ```
 
 System Architecture
+
 The project uses a simple cloud-edge cluster model built on Kubernetes.
 Main components:
 - Cloud node
@@ -58,6 +59,7 @@ Visualizes CPU and resource behavior during the experiments.
 Receives alerts and triggers migration actions.
 
 Environment Setup
+
 The experiments are designed to run on a local Kubernetes environment using Minikube.
 Recommended setup:
 - at least 4 CPU cores
@@ -77,6 +79,7 @@ kubectl get nodes --show-labels
 ```
 
 Monitoring Stack
+
 The monitoring workflow is based on Prometheus and Grafana.
 Prometheus collects:
 - CPU usage
@@ -90,6 +93,7 @@ Grafana visualizes:
 This monitoring setup is central to the evaluation, especially for comparing CPU behavior before and after migration, routing, caching, or scaling actions.
 
 Experiment Modules
+
 1. R1 Task Migration
 Directory: task_migration/
 This experiment evaluates workload migration from the cloud node to the edge node when the cloud-side CPU usage becomes too high.
@@ -178,6 +182,7 @@ Key comparison focus:
 - CPU utilization after additional Pod replicas are created
 
 Build Images
+
 Build the Docker images for each module before deployment.
 Examples:
 ```bash
@@ -195,6 +200,7 @@ docker build -t scale-service:latest .
 ```
 
 Deploy Monitoring
+
 Prometheus and Grafana can be installed using Helm.
 ```bash 
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -208,6 +214,7 @@ kubectl port-forward svc/prometheus-grafana 3000:80 -n monitoring
 ```
 
 Deployment
+
 R1 Task Migration
 ```bash
 kubectl apply -f task_migration/deployment-cloud.yaml
@@ -250,7 +257,9 @@ kubectl apply -f cloud_scheduling/hpa-scale.yaml
 ```
 
 How to Test
+
 R1 Task Migration Test
+
 Trigger the compute-heavy workload:
 ```bash
 curl http://<service-address>/compute-heavy
@@ -267,6 +276,7 @@ Expected result:
 - after migration, cloud CPU pressure decreases and edge-side CPU activity increases
 
 R2 Load Balancing Test
+
 Send requests with and without the location header:
 ```bash
 curl -H "x-user-location: US" http://<gateway-address>/
@@ -277,6 +287,7 @@ Expected result:
 - other requests are routed to cloud-side Pods
 
 R3 Cache Policy Test
+
 Request a hot product and a normal product:
 ```bash
 curl http://<gateway-address>/product/101
@@ -287,6 +298,7 @@ Expected result:
 - other product requests go to cloud-side Pods
 
 R4 Cloud Scheduling Test
+
 Start the synthetic load:
 ```bash
 curl http://<gateway-address>/start
@@ -302,6 +314,7 @@ Expected result:
 - after scaling out, CPU pressure should be shared across more Pods
 
 Evaluation Focus
+
 The main evaluation metrics used in this project are: CPU usage
 Special attention is given to CPU metrics, since the main scheduling rules are triggered by CPU pressure or designed to reduce CPU concentration on the cloud side.
 For task migration, the key comparison is:
